@@ -7,7 +7,7 @@ tidy:
 	@gum log --level info --time kitchen "[ENCLAVE] Completed go mod tidy successfully."
 
 build: tidy
-	@gum spin --show-error --title "[ENCLAVE] Running go build..." -- sh -c "GOOS=wasip1 GOARCH=wasm go build -buildmode=c-shared -o enclave.wasm"
+	@GOOS=wasip1 GOARCH=wasm go build -buildmode=c-shared -o enclave.wasm
 	@gum log --level info --time kitchen "[ENCLAVE] Completed go build successfully."
 
 publish: build
