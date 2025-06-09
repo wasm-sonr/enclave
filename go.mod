@@ -1,4 +1,4 @@
-module github.com/sonr-io/crypto/mpc/enclave
+module enclave
 
 go 1.24.2
 

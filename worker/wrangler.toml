@@ -1,0 +1,6 @@
+# Top-level configuration
+name = "motr-enclave"
+main = "main.mjs"
+compatibility_date = "2025-04-14"
+
+
