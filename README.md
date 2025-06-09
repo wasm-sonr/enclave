@@ -4,18 +4,32 @@ This is a simple enclave that can be used to generate and sign data.
 
 ## Usage
 
-To use the enclave, you can run the following command:
+To use the enclave, you can either run it inside the Cloudflare Durable Object or use it using the Golang Host Runtime.
 
-```bash
-extism call ./enclave.wasm generate --wasi
-```
+### Cloudflare Durable Object
 
-This will generate a new enclave and output the public key and the serialized data of the enclave.
+The Cloudflare Durable Object is a simple way to run the enclave in the cloud. You can find the code for the Durable Object under the `worker` directory.
 
-To sign data with the enclave, you can run the following command:
+### Golang Host Runtime
 
-```bash
-extism call ./enclave.wasm sign --wasi --input ./tmp/enclave.json
-```
+If you want to run the enclave locally, you can use the Golang Host Runtime. You can find the code for the Host Runtime under the `runtime` directory.
 
-This will sign the data using the enclave and output the signature.
+- The `runtime` directory leverages the extism sdk and also proto actor in order to maintain plugin specific functionality.
+
+## API
+
+### `generate()`
+
+Generates a new key pair and returns the public key.
+
+### `sign(data)`
+
+Signs the provided data using the private key.
+
+### `verify(data, signature)`
+
+Verifies the provided signature using the public key.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
