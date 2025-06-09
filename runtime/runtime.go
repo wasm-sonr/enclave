@@ -1,6 +1,8 @@
 package runtime
 
 import (
+	"context"
+	"enclave/config"
 	"errors"
 
 	extism "github.com/extism/go-sdk"
@@ -13,22 +15,20 @@ type EnclaveHost interface {
 	Verify(pubKey []byte, message []byte, sig []byte) (bool, error)
 }
 
-//	func NewEnclaveHost() EnclaveHost {
-//		return EnclaveHost{
-//			Manifest: extism.Manifest{
-//				Wasm: []extism.Wasm{
-//					extism.WasmUrl{
-//						Url: "https://github.com/extism/plugins/releases/latest/download/count_vowels.wasm",
-//					},
-//				},
-//				Config: map[string]string{
-//					config.KeyChainID: "aeiouyAEIOUY",
-//				},
-//			},
-//		}
-//	}
 type enclaveHost struct {
-	plugin extism.Plugin
+	plugin *extism.Plugin
+}
+
+func NewEnclaveHost(ctx context.Context) EnclaveHost {
+	h := &enclaveHost{}
+	manifest := config.GetManifest()
+	cfg := extism.PluginConfig{}
+	plugin, err := extism.NewPlugin(ctx, manifest, cfg, []extism.HostFunction{})
+	if err != nil {
+		panic(err)
+	}
+	h.plugin = plugin
+	return h
 }
 
 func (h *enclaveHost) Generate() ([]byte, error) {
