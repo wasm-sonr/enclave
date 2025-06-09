@@ -7,3 +7,5 @@ Cargo.lock
 node_modules
 dist
 wasm-pack.log
+bin
+tmp

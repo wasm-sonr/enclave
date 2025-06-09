@@ -1,8 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.2/.schema/devbox.schema.json",
   "packages": [
+    "gum@latest",
     "tinygo@latest",
-    "rclone@latest"
+    "nodejs@latest",
+    "extism-cli@latest"
   ],
   "shell": {
     "init_hook": [
@@ -11,9 +13,6 @@
     "scripts": {
       "build": [
         "make build"
-      ],
-      "publish": [
-        "make publish"
       ]
     }
   }
