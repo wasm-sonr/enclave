@@ -17,6 +17,7 @@ export class Enclave extends DurableObject {
         "https://cdn.sonr.io/bin/enclave.wasm",
         {
           useWasi: true,
+          config: {},
         },
       );
       return true;
