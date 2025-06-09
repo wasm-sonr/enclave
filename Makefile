@@ -3,7 +3,7 @@
 all: build publish
 
 build:
-	@GOOS=wasip1 GOARCH=wasm go build -buildmode=c-shared -o enclave.wasm
+	@GOOS=wasip1 GOARCH=wasm go build -buildmode=c-shared -o enclave.wasm ./plugin/main.go
 	@gum log --level info --time kitchen "[ENCLAVE] Completed go build successfully."
 
 test: build

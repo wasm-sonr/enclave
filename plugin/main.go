@@ -1,6 +1,8 @@
 package main
 
 import (
+	"enclave/config"
+
 	"github.com/extism/go-pdk"
 	"github.com/go-sonr/crypto/mpc"
 )
@@ -25,30 +27,20 @@ type VerifyResponse struct {
 }
 
 func main() {
-	export()
+	generate()
 	unlock()
 	sign()
 	verify()
 }
 
-//go:wasmexport export
-func export() int32 {
-	pwdInput := pdk.InputString()
+//go:wasmexport generate
+func generate() int32 {
 	e, err := mpc.NewEnclave()
 	if err != nil {
 		pdk.SetError(err)
 		return 1
 	}
-	pdk.SetVar("PUB_KEY", e.PubKeyBytes())
-	pdk.Log(pdk.LogInfo, "Generated enclave successfully")
-	bz, err := e.Encrypt([]byte(pwdInput))
-	if err != nil {
-		pdk.SetError(err)
-		return 1
-	}
-	pdk.SetVar("ENC_DATA", bz)
-	pdk.SetVarInt("UNLOCKED", 0)
-	pdk.Output(bz)
+	pdk.OutputJSON(e.GetData())
 	return 0
 }
 
@@ -66,12 +58,11 @@ func sign() int32 {
 		return 1
 	}
 	pdk.Log(pdk.LogInfo, "Deserialized request successfully")
-	e, err := mpc.ImportEnclave(mpc.WithEnclaveJSON(req.Enclave))
+	e, err := config.GetEnclave()
 	if err != nil {
 		pdk.SetError(err)
 		return 1
 	}
-	pdk.Log(pdk.LogInfo, "Imported enclave successfully")
 	sig, err := e.Sign(req.Message)
 	if err != nil {
 		pdk.SetError(err)
