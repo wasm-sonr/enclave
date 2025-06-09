@@ -19,16 +19,16 @@ type enclaveHost struct {
 	plugin *extism.Plugin
 }
 
-func NewEnclaveHost(ctx context.Context) EnclaveHost {
+func NewEnclaveHost(ctx context.Context) (EnclaveHost, error) {
 	h := &enclaveHost{}
 	manifest := config.GetManifest()
-	cfg := extism.PluginConfig{}
+	cfg := config.GetPluginConfig()
 	plugin, err := extism.NewPlugin(ctx, manifest, cfg, []extism.HostFunction{})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	h.plugin = plugin
-	return h
+	return h, nil
 }
 
 func (h *enclaveHost) Generate() ([]byte, error) {
